@@ -2,18 +2,14 @@ package jp.speakbuddy.edisonandroidexercise.ui.fact
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,7 +18,8 @@ import jp.speakbuddy.edisonandroidexercise.ui.theme.EdisonAndroidExerciseTheme
 
 @Composable
 fun FactScreen(
-    viewModel: FactViewModel
+    factScreenData: FactScreenData,
+    onFetch: (() -> Unit)?
 ) {
     Column(
         modifier = Modifier
@@ -35,32 +32,47 @@ fun FactScreen(
             alignment = Alignment.CenterVertically
         )
     ) {
-        var fact by remember { mutableStateOf("") }
-
         Text(
             text = "Fact",
             style = MaterialTheme.typography.titleLarge
         )
 
+        if (factScreenData.isMultipleCatsVisible) {
+            Text(
+                text = "Multiple cats!!",
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
         Text(
-            text = fact,
+            text = factScreenData.content,
             style = MaterialTheme.typography.bodyLarge
         )
 
-        val onClick = {
-            fact = viewModel.updateFact { print("done") }
+        Box(
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            if (factScreenData.isLengthVisible) {
+                Text(
+                    text = "Length: ${factScreenData.length}",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
         }
 
-        Button(onClick = onClick) {
+        Button(onClick = {
+            onFetch?.invoke()
+        }) {
             Text(text = "Update fact")
         }
     }
 }
 
-@Preview
+@Preview(showBackground = true, name = "Pixel-8", widthDp = 800, heightDp = 1080)
 @Composable
 private fun FactScreenPreview() {
     EdisonAndroidExerciseTheme {
-        FactScreen(viewModel = FactViewModel())
+        FactScreen(factScreenData = FactScreenData("asdf", 1, true, true), onFetch = {
+
+        })
     }
 }
