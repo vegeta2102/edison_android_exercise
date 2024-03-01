@@ -17,3 +17,5 @@ rootProject.name = "edison_android_exercise"
 include(":app")
 include(":domain")
 include(":data")
+include(":component:core")
+include(":component:test")

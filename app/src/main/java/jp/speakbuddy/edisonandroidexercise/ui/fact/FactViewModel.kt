@@ -37,9 +37,7 @@ class FactViewModel @Inject constructor(
             kotlin.runCatching {
                 fetchFactUseCase()
             }.onSuccess {
-
             }.onFailure {
-
             }
         }
     }

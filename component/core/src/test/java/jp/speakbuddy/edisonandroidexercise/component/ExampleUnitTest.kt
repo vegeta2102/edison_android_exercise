@@ -1,4 +1,4 @@
-package jp.speakbuddy.edisonandroidexercise.domain
+package jp.speakbuddy.edisonandroidexercise.component
 
 import org.junit.Test
 
